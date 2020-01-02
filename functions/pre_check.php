@@ -91,7 +91,7 @@ function add_domain_to_pre_check($domain,$email,$visitor_ip) {
 
     
 
-    if (mail($to, $subject, $message, $headers) === true) {
+    if (smtp_mail($to, $subject, $message, 'noreply@' . $current_domain) === true) {
         $result['success'][] = true;
     } else {
         $result['errors'][] = "Can't send email.";

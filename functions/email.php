@@ -22,10 +22,9 @@ function smtp_mail($to, $subject, $body, $from) {
     global $smtp_username;
     global $smtp_password;
     
-    $transport = (new Swift_SmtpTransport($smtp_host))
+    $transport = (new Swift_SmtpTransport($smtp_host, $smtp_port))
         ->setUsername($smtp_username)
-        ->setPassword($smtp_password)
-        ->setPort($smtp_port);
+        ->setPassword($smtp_password);
 
     $mailer = new Swift_Mailer($transport);
 
@@ -34,7 +33,9 @@ function smtp_mail($to, $subject, $body, $from) {
         ->setTo([$to])
         ->setBody($body);
 
-    return !!$mailer->send($message);
+    $sent = $mailer->send($message);
+    die(json_encode($sent));
+    return !!$sent;
 }
 
 function validate_email($email) {
