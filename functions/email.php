@@ -18,12 +18,14 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 function smtp_mail($to, $subject, $message, $from) {
     global $smtp_host;
+    global $smtp_port;
     global $smtp_username;
     global $smtp_password;
 
     $transport = (new Swift_SmtpTransport($smtp_host))
         ->setUsername($smtp_username)
-        ->setPassword($smtp_password);
+        ->setPassword($smtp_password)
+        ->setPort($smtp_port);
 
     $mailer = new Swift_Mailer($transport);
 

@@ -39,6 +39,7 @@ $check_file = '/var/www/certificatemonitor.org/cert-monitor/checks.json';
 $deleted_check_file = '/var/www/certificatemonitor.org/cert-monitor/deleted_checks.json';
 
 $smtp_host = '';
+$smtp_port = 25;
 $smtp_username = '';
 $smtp_password = '';
 
