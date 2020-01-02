@@ -14,6 +14,27 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
+function smtp_mail($to, $subject, $message, $from) {
+    global $smtp_host;
+    global $smtp_username;
+    global $smtp_password;
+
+    $transport = (new Swift_SmtpTransport($smtp_host))
+        ->setUsername($smtp_username)
+        ->setPassword($smtp_password);
+
+    $mailer = new Swift_Mailer($transport);
+
+    $message = (new Swift_Message($subject))
+        ->setFrom($from)
+        ->setTo([$to])
+        ->setBody($body);
+
+    return !!$mailer->send($message);
+}
+
 function validate_email($email) {
   if (!filter_var(strtolower($email), FILTER_VALIDATE_EMAIL)) {
     return false;
@@ -59,7 +80,7 @@ function send_error_mail($domain, $email, $errors) {
           'List-Unsubscribe: <https://' . $current_link . "/unsubscribe.php?id=" . $id . ">" . "\r\n" .
           'X-Mailer: PHP/4.1.1';  
 
-      if (mail($to, $subject, $message, $headers) === true) {
+      if (smtp_mail($to, $subject, $message, 'noreply@' . $current_domain) === true) {
           echo "\nError mail sent to $to.\n";
           return true;
       } else {
@@ -120,7 +141,7 @@ function send_cert_expired_email($days, $domain, $email, $raw_cert) {
           'List-Unsubscribe: <https://' . $current_link . "/unsubscribe.php?id=" . $id . ">" . "\r\n" .
           'X-Mailer: PHP/4.1.1';  
 
-      if (mail($to, $subject, $message, $headers) === true) {
+      if (smtp_mail($to, $subject, $message, 'noreply@' . $current_domain) === true) {
           echo "\nExpired x days ago mail sent to $to.\n";
           return true;
       } else {
@@ -182,7 +203,7 @@ function send_expires_in_email($days, $domain, $email, $raw_cert) {
           'List-Unsubscribe: <https://' . $current_link . "/unsubscribe.php?id=" . $id . ">" . "\r\n" .
           'X-Mailer: PHP/4.1.1';  
 
-      if (mail($to, $subject, $message, $headers) === true) {
+      if (smtp_mail($to, $subject, $message, 'noreply@' . $current_domain) === true) {
           echo "\nExpires in mail sent to $to.\n";
           return true;
       } else {

@@ -1,0 +1,6 @@
+{
+    "name": "ranbogmord/certificate-expiry-monitor",
+    "require": {
+        "swiftmailer/swiftmailer": "^6.0"
+    }
+}
