@@ -93,7 +93,7 @@ function remove_domain_check($id,$visitor_ip) {
             'List-Unsubscribe: <https://' . $current_link . "/unsubscribe.php?id=" . $id . ">" . "\r\n" .
             'X-Mailer: PHP/4.1.1';
 
-        if (mail($to, $subject, $message, $headers) === true) {
+        if (smtp_mail($to, $subject, $message, 'noreply@' . $current_domain) === true) {
             $result['success'][] = true;
         } else {
             $result['errors'][] = "Can't send email.";

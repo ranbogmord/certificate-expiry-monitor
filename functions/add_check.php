@@ -125,7 +125,7 @@ https://" . $current_link . "";
 
     
 
-    if (mail($to, $subject, $message, $headers) === true) {
+    if (smtp_mail($to, $subject, $message, 'noreply@' . $current_domain) === true) {
         $result['success'][] = true;
     } else {
         $result['errors'][] = "Can't send email.";
