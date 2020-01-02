@@ -34,7 +34,6 @@ function smtp_mail($to, $subject, $body, $from) {
         ->setBody($body);
 
     $sent = $mailer->send($message);
-    die(json_encode($sent));
     return !!$sent;
 }
 
